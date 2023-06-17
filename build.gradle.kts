@@ -1,21 +1,33 @@
 plugins {
     java
-    kotlin("jvm") version "1.8.21"
+    kotlin("plugin.serialization") version "1.8.22"
+    kotlin("jvm") version "1.8.22"
     id("io.papermc.paperweight.userdev") version "1.5.5"
     id("xyz.jpenilla.run-paper") version "2.1.0"
 }
 
-group = "org.example"
+group = "net.stckoverflw"
 version = "0.1.0"
 
 repositories {
+    maven("https://maven.stckoverflw.net/releases")
+    maven("https://jitpack.io/")
     mavenCentral()
+    mavenLocal()
 }
 
 dependencies {
-    paperweight.paperDevBundle("1.19.4-R0.1-SNAPSHOT")
+    paperweight.paperDevBundle("1.20.1-R0.1-SNAPSHOT")
 
-    implementation("net.axay:kspigot:1.19.2")
+    implementation("net.axay:kspigot:1.20.1")
+
+    val scoreboardLibraryVersion = "2.0.0-RC9"
+
+    implementation("com.github.megavexnetwork.scoreboard-library:scoreboard-library-api:$scoreboardLibraryVersion")
+    runtimeOnly("com.github.megavexnetwork.scoreboard-library:scoreboard-library-implementation:$scoreboardLibraryVersion")
+    implementation("com.github.megavexnetwork.scoreboard-library:scoreboard-library-extra-kotlin:$scoreboardLibraryVersion")
+
+    runtimeOnly("com.github.megavexnetwork.scoreboard-library:scoreboard-library-v1_20_R1:$scoreboardLibraryVersion")
 }
 
 val javaVersion = 17
