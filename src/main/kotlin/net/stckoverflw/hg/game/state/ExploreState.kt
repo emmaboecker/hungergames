@@ -1,29 +1,42 @@
 package net.stckoverflw.hg.game.state
 
+import net.axay.kspigot.extensions.onlinePlayers
+import net.axay.kspigot.runnables.KSpigotRunnable
 import net.axay.kspigot.runnables.task
 import net.stckoverflw.hg.game.HungerGamesGame
 
 class ExploreState(val game: HungerGamesGame) : GameState() {
 
-    var seconds = game.plugin.gameConfig.borderStartShrinking
+    private var timeLeft = game.plugin.gameConfig.borderStartShrinking
+
+    private var task: KSpigotRunnable? = null
 
     override fun start() {
-        task(
+        task = task(
             sync = false,
             delay = 0L,
             period = 20L
         ) {
-            if (seconds <= 0) {
-                game.gameState = GracePeriod(game)
+            if (timeLeft <= 0) {
+                game.gameState = FightState(game)
                 it.cancel()
                 return@task
             }
 
-            seconds--
+            onlinePlayers.forEach { player ->
+                game.scoreboardManager.setTime(
+                    player,
+                    game.miniMessage.deserialize("<gray>Border starts shrinking"),
+                    game.miniMessage.deserialize("<blue>${timeLeft}s")
+                )
+            }
+
+            timeLeft--
         }
     }
 
     override fun stop() {
-
+        task?.cancel()
+        task = null
     }
 }
