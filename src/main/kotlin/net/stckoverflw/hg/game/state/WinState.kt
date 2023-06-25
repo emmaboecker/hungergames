@@ -13,6 +13,8 @@ import org.bukkit.Material
 import org.bukkit.entity.EntityType
 import org.bukkit.entity.Firework
 import org.bukkit.entity.Item
+import org.bukkit.entity.Player
+import org.bukkit.event.entity.EntityDamageEvent
 import java.util.*
 
 
@@ -48,6 +50,12 @@ class WinState(val game: HungerGamesGame, private val winner: UUID) : GameState(
                 meta.addEffect(FireworkEffect.builder().withColor(Color.RED, Color.BLUE).trail(true).build())
 
                 firework.fireworkMeta = meta
+            }
+        }
+
+        stateListen<EntityDamageEvent> {
+            if (it.entity is Player) {
+                it.isCancelled = true
             }
         }
 
