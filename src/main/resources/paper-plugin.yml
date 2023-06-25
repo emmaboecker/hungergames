@@ -4,5 +4,6 @@ name: HungerGames
 version: '0.1.0'
 main: net.stckoverflw.hg.HungerGamesPlugin
 loader: net.stckoverflw.hg.HungerGamesPluginLoader
+bootstrapper: net.stckoverflw.hg.HungerGamesPluginBootstrapper
 description: Hunger Games plugin for JacobStreams
 authors: [ StckOverflw ]
