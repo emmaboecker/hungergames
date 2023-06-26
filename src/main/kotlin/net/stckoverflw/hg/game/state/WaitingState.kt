@@ -14,6 +14,7 @@ import net.stckoverflw.hg.game.HungerGamesGame
 import org.bukkit.GameMode
 import org.bukkit.Sound
 import org.bukkit.event.EventPriority
+import org.bukkit.event.entity.FoodLevelChangeEvent
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerMoveEvent
 import kotlin.time.Duration.Companion.seconds
@@ -55,6 +56,10 @@ class WaitingState(val game: HungerGamesGame) : GameState() {
             if (it.hasChangedBlock()) {
                 it.isCancelled = true
             }
+        }
+
+        stateListen<FoodLevelChangeEvent> {
+            it.isCancelled = true
         }
     }
 
