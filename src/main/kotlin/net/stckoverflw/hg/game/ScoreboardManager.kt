@@ -42,12 +42,12 @@ class ScoreboardManager(val game: HungerGamesGame) {
 
             scoreboard.registerNewTeam(it.player.uniqueId.toString() + "placeholder1").apply {
                 addEntry("§7")
-                prefix(game.miniMessage.deserialize("<#9454ff>twitch.tv/jacobstreams"))
+                prefix(game.miniMessage.deserialize("<#f24a4f>jacobstreams.com"))
             }
 
             scoreboard.registerNewTeam(it.player.uniqueId.toString() + "placeholder2").apply {
                 addEntry("§8")
-                prefix(game.miniMessage.deserialize("<#549bff>www.stckoverflw.net"))
+                prefix(game.miniMessage.deserialize("<#5e83c5>www.stckoverflw.net"))
             }
 
             objective.getScore("§0").score = 9
