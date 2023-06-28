@@ -54,6 +54,11 @@ class HungerGamesGame(val plugin: HungerGamesPlugin, val world: World) {
         gameState.start()
 
         world.setGameRule(GameRule.ANNOUNCE_ADVANCEMENTS, false)
+        world.setGameRule(GameRule.DO_WEATHER_CYCLE, false)
+        world.setGameRule(GameRule.DO_DAYLIGHT_CYCLE, false)
+        world.setGameRule(GameRule.DISABLE_RAIDS, true)
+        world.setGameRule(GameRule.DO_MOB_SPAWNING, false)
+        world.setGameRule(GameRule.DO_TRADER_SPAWNING, false)
 
         listen<PlayerJoinEvent>(priority = EventPriority.LOW) { event ->
             if (gameState is WaitingState && !players.contains(event.player.uniqueId)) {
