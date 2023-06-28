@@ -23,6 +23,7 @@ import org.bukkit.event.block.BlockBreakEvent
 import org.bukkit.event.block.BlockPlaceEvent
 import org.bukkit.event.entity.PlayerDeathEvent
 import org.bukkit.event.player.PlayerJoinEvent
+import org.bukkit.event.player.PlayerQuitEvent
 import org.bukkit.scoreboard.Team
 import java.util.*
 
@@ -61,16 +62,31 @@ class HungerGamesGame(val plugin: HungerGamesPlugin, val world: World) {
         world.setGameRule(GameRule.DO_TRADER_SPAWNING, false)
 
         listen<PlayerJoinEvent>(priority = EventPriority.LOW) { event ->
+            event.joinMessage(null)
             if (gameState is WaitingState && !players.contains(event.player.uniqueId)) {
                 players.add(event.player.uniqueId)
+                val component = miniMessage.deserialize("<blue><bold>${event.player.name}</bold> <white>joined")
+                onlinePlayers.forEach {
+                    it.sendActionBar(component)
+                }
             } else {
-                event.joinMessage(null)
                 event.player.gameMode = GameMode.SPECTATOR
             }
 
             event.player.scoreboard = plugin.server.scoreboardManager.newScoreboard
 
             reloadTeams()
+        }
+
+        listen<PlayerQuitEvent> { event ->
+            event.quitMessage(null)
+
+            if (event.player.uniqueId in players) {
+                val component = miniMessage.deserialize("<red><bold>${event.player.name}</bold> <white>left")
+                onlinePlayers.forEach {
+                    it.sendActionBar(component)
+                }
+            }
         }
 
         listen<PlayerDeathEvent> {
