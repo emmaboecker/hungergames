@@ -53,6 +53,10 @@ class WaitingState(val game: HungerGamesGame) : GameState() {
         }
 
         stateListen<PlayerMoveEvent> {
+            if (it.player.uniqueId !in game.players) {
+                return@stateListen
+            }
+
             if (it.hasChangedBlock()) {
                 it.isCancelled = true
             }
