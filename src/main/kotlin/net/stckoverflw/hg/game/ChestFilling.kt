@@ -91,6 +91,7 @@ class ChestFilling(val game: HungerGamesGame) {
         }, 5),
         Item(ItemStack(Material.IRON_CHESTPLATE), 6),
         Item(ItemStack(Material.IRON_CHESTPLATE), 4),
+        Item(ItemStack(Material.DIAMOND_CHESTPLATE), 3),
         Item(ItemStack(Material.DIAMOND_CHESTPLATE), 2),
         Item(itemStack(Material.IRON_CHESTPLATE) {
             addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 2)
@@ -187,7 +188,7 @@ class ChestFilling(val game: HungerGamesGame) {
         Item(ItemStack(Material.DIAMOND, 1), 2),
         Item(ItemStack(Material.DIAMOND, 2), 1),
         Item(ItemStack(Material.IRON_NUGGET, 1), 2),
-        Item(ItemStack(Material.IRON_NUGGET, 2), 1),
+        Item(ItemStack(Material.IRON_INGOT, 2), 1),
         Item(ItemStack(Material.COBWEB, 1), 3),
     )
 
