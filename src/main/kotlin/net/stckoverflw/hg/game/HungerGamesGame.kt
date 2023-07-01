@@ -166,10 +166,13 @@ class HungerGamesGame(val plugin: HungerGamesPlugin, val world: World) {
                 }
             }
 
-            val team = player.scoreboard.registerNewTeam(player.name)
-            team.addEntry(player.name)
-            team.displayName(Component.text(player.name))
-            team.setOption(Team.Option.NAME_TAG_VISIBILITY, Team.OptionStatus.NEVER)
+            onlinePlayers.forEach { other ->
+                val team = player.scoreboard.registerNewTeam(other.name)
+                team.displayName(Component.text(other.name))
+                team.setOption(Team.Option.NAME_TAG_VISIBILITY, Team.OptionStatus.NEVER)
+                team.addEntry(other.name)
+            }
+
             if (player.uniqueId in players) {
                 player.playerListName(
                     miniMessage.deserialize(
