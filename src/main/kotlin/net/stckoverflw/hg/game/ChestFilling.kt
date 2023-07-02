@@ -7,6 +7,8 @@ import net.axay.kspigot.items.itemStack
 import net.axay.kspigot.items.meta
 import org.bukkit.Location
 import org.bukkit.Material
+import org.bukkit.block.Barrel
+import org.bukkit.block.Chest
 import org.bukkit.block.Container
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.event.EventPriority
@@ -204,7 +206,13 @@ class ChestFilling(val game: HungerGamesGame) {
     init {
         listen<PlayerInteractEvent>(priority = EventPriority.LOW) {
             val clickedBlock = it.clickedBlock ?: return@listen
-            if (clickedBlock.state is Container && (lastRefills[clickedBlock.location] ?: 0) < refill) {
+            if (clickedBlock.state is Barrel) {
+                val barrel = clickedBlock.state as Barrel
+                barrel.setLock("dawg this is so annoying")
+                barrel.update()
+                return@listen
+            }
+            if (clickedBlock.state is Chest && (lastRefills[clickedBlock.location] ?: 0) < refill) {
                 lastRefills[clickedBlock.location] = System.currentTimeMillis()
                 val container = clickedBlock.state as Container
                 var newContent = container.inventory.contents.map { _ ->
