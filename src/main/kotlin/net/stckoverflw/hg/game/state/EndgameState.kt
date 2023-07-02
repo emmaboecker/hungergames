@@ -6,38 +6,39 @@ import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.NamedTextColor
 import net.kyori.adventure.text.format.TextDecoration
 import net.stckoverflw.hg.game.HungerGamesGame
+import net.stckoverflw.hg.util.formatTime
 import org.bukkit.WeatherType
 
 class EndgameState(val game: HungerGamesGame) : GameState() {
 
-    private var timeLeft = 300
+    private var timeLeft = 600
 
     override fun start() {
-        timeLeft = 300
+        timeLeft = 600
 
         onlinePlayers.forEach {
             it.setPlayerWeather(WeatherType.DOWNFALL)
-            it.sendMessage(Component.text("The Endgame has started! You have 5 minutes to fight!", NamedTextColor.RED))
+            it.sendMessage(game.miniMessage.deserialize("<redThe Endgame has started! You have <bold>10</bold> minutes to fight!"))
         }
 
         task(
             sync = false,
             delay = 0L,
             period = 20L
-        ) {
+        ) { runnable ->
             timeLeft--
 
             onlinePlayers.forEach {
                 game.scoreboardManager.setTime(
                     it,
                     Component.text("The End", NamedTextColor.GRAY, TextDecoration.BOLD),
-                    game.miniMessage.deserialize("<red><bold>${timeLeft}s")
+                    game.miniMessage.deserialize("<red><bold>${timeLeft.formatTime()}")
                 )
             }
 
             if (timeLeft <= 0) {
                 game.gameState = ChaosState(game)
-                it.cancel()
+                runnable.cancel()
                 return@task
             }
         }

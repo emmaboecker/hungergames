@@ -4,6 +4,7 @@ import net.axay.kspigot.extensions.onlinePlayers
 import net.axay.kspigot.runnables.KSpigotRunnable
 import net.axay.kspigot.runnables.task
 import net.stckoverflw.hg.game.HungerGamesGame
+import net.stckoverflw.hg.util.formatTime
 
 class ExploreState(val game: HungerGamesGame) : GameState() {
 
@@ -27,7 +28,7 @@ class ExploreState(val game: HungerGamesGame) : GameState() {
                 game.scoreboardManager.setTime(
                     player,
                     game.miniMessage.deserialize("<gray>Border starts shrinking"),
-                    game.miniMessage.deserialize("<blue>${timeLeft}s")
+                    game.miniMessage.deserialize("<blue>${timeLeft.formatTime()}")
                 )
             }
 

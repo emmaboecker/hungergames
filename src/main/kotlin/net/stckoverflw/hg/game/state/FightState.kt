@@ -6,6 +6,7 @@ import net.axay.kspigot.runnables.task
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.NamedTextColor
 import net.stckoverflw.hg.game.HungerGamesGame
+import net.stckoverflw.hg.util.formatTime
 import org.bukkit.Sound
 
 class FightState(val game: HungerGamesGame) : GameState() {
@@ -55,7 +56,7 @@ class FightState(val game: HungerGamesGame) : GameState() {
                 game.scoreboardManager.setTime(
                     it,
                     Component.text("Next Chest refill", NamedTextColor.GRAY),
-                    game.miniMessage.deserialize("<blue>${refillTime - (seconds % refillTime)}s")
+                    game.miniMessage.deserialize("<blue>${(refillTime - (seconds % refillTime)).formatTime()}")
                 )
             }
 

@@ -9,16 +9,14 @@ import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.NamedTextColor
 import net.kyori.adventure.text.format.TextDecoration
 import net.kyori.adventure.title.Title
-import net.kyori.adventure.util.Ticks
 import net.stckoverflw.hg.game.HungerGamesGame
+import net.stckoverflw.hg.util.formatTime
 import org.bukkit.GameMode
 import org.bukkit.Sound
 import org.bukkit.event.EventPriority
 import org.bukkit.event.entity.FoodLevelChangeEvent
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerMoveEvent
-import kotlin.time.Duration.Companion.seconds
-import kotlin.time.toJavaDuration
 
 class WaitingState(val game: HungerGamesGame) : GameState() {
 
@@ -70,19 +68,6 @@ class WaitingState(val game: HungerGamesGame) : GameState() {
     override fun stop() {
         countdownTask?.cancel()
         countdownTask = null
-
-        val times = Title.Times.times(Ticks.duration(10), 1.seconds.toJavaDuration(), Ticks.duration(15))
-        val mainTitle = Component.text("Go! Go! Go!", NamedTextColor.RED, TextDecoration.BOLD)
-        val subtitle = Component.text("You have ", NamedTextColor.GRAY)
-            .append(Component.text("${game.plugin.gameConfig.gracePeriod} seconds", NamedTextColor.BLUE)).append(
-                Component.text(" of invincibility", NamedTextColor.GRAY)
-            )
-
-        val title = Title.title(mainTitle, subtitle, times)
-
-        onlinePlayers.forEach {
-            it.showTitle(title)
-        }
     }
 
     fun startCountdown(): Boolean {
@@ -124,7 +109,7 @@ class WaitingState(val game: HungerGamesGame) : GameState() {
                 game.scoreboardManager.setTime(
                     player,
                     Component.text("Game starts in", NamedTextColor.GRAY),
-                    Component.text("${seconds}s", NamedTextColor.RED)
+                    Component.text(seconds.formatTime(), NamedTextColor.RED)
                 )
             }
 
