@@ -14,9 +14,11 @@ import net.stckoverflw.hg.util.formatTime
 import org.bukkit.GameMode
 import org.bukkit.Sound
 import org.bukkit.event.EventPriority
+import org.bukkit.event.entity.EntityDamageEvent
 import org.bukkit.event.entity.FoodLevelChangeEvent
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerMoveEvent
+import org.bukkit.scoreboard.Team
 
 class WaitingState(val game: HungerGamesGame) : GameState() {
 
@@ -60,6 +62,10 @@ class WaitingState(val game: HungerGamesGame) : GameState() {
             }
         }
 
+        stateListen<EntityDamageEvent> {
+            it.damage = 0.0
+        }
+
         stateListen<FoodLevelChangeEvent> {
             it.isCancelled = true
         }
@@ -68,6 +74,12 @@ class WaitingState(val game: HungerGamesGame) : GameState() {
     override fun stop() {
         countdownTask?.cancel()
         countdownTask = null
+
+        onlinePlayers.forEach {
+            it.scoreboard.teams.forEach { team ->
+                team.setOption(Team.Option.NAME_TAG_VISIBILITY, Team.OptionStatus.NEVER)
+            }
+        }
     }
 
     fun startCountdown(): Boolean {

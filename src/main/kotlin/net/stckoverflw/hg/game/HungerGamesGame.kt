@@ -168,8 +168,10 @@ class HungerGamesGame(val plugin: HungerGamesPlugin, val world: World) {
 
             onlinePlayers.forEach { other ->
                 val team = player.scoreboard.registerNewTeam(other.name)
+                if (gameState !is WaitingState) {
+                    team.setOption(Team.Option.NAME_TAG_VISIBILITY, Team.OptionStatus.NEVER)
+                }
                 team.displayName(Component.text(other.name))
-                team.setOption(Team.Option.NAME_TAG_VISIBILITY, Team.OptionStatus.NEVER)
                 team.addEntry(other.name)
             }
 
