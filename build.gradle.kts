@@ -18,7 +18,7 @@ repositories {
 dependencies {
     paperweight.paperDevBundle("1.20.1-R0.1-SNAPSHOT")
 
-    implementation("net.axay:kspigot:1.20.1")
+    implementation("net.axay:kspigot:1.21.0")
 }
 
 val javaVersion = 17
